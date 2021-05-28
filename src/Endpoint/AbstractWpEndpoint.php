@@ -59,8 +59,9 @@ abstract class AbstractWpEndpoint
     public function numFound()
     {
     	try {
-	$response = $this->getResponse(null, array('per_page' => 1);
-	return $response->getHeader('X-WP-TotalPages');
+		$response = $this->getResponse(null, array('per_page' => 1));
+		$num = (int) $response->getHeader('X-WP-TotalPages')[0];
+		return $num;
 	}
 	catch (RuntimeException $e) {
 		throw $e;
