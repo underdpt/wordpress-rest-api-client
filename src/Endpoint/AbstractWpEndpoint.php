@@ -27,7 +27,7 @@ abstract class AbstractWpEndpoint
     }
 
     abstract protected function getEndpoint();
-
+    
     /**
      * @param int $id
      * @param array $params - parameters that can be passed to GET
@@ -35,7 +35,7 @@ abstract class AbstractWpEndpoint
      * @return array
      * @throws \RuntimeException
      */
-    public function get($id = null, array $params = null)
+    public function getResponse($id = null, array $params = null)
     {
         $uri = $this->getEndpoint();
         $uri .= (is_null($id)?'': '/' . $id);
@@ -46,10 +46,43 @@ abstract class AbstractWpEndpoint
 
         if ($response->hasHeader('Content-Type')
             && substr($response->getHeader('Content-Type')[0], 0, 16) === 'application/json') {
-            return json_decode($response->getBody()->getContents(), true);
+            return $response;
         }
 
         throw new RuntimeException('Unexpected response');
+    }
+
+    /**
+     * @return int
+     * @throws \RuntimeException
+     */
+    public function numFound()
+    {
+    	try {
+	$response = $this->getResponse(null, array('per_page' => 1);
+	return $response->getHeader('X-WP-TotalPages');
+	}
+	catch (RuntimeException $e) {
+		throw $e;
+	}
+    }
+
+    /**
+     * @param int $id
+     * @param array $params - parameters that can be passed to GET
+     *        e.g. for tags: https://developer.wordpress.org/rest-api/reference/tags/#arguments
+     * @return array
+     * @throws \RuntimeException
+     */
+    public function get($id = null, array $params = null)
+    {
+    	try {
+	$response = $this->getResponse($id, $params);
+	return json_decode($response->getBody()->getContents(), true);
+	}
+	catch (RuntimeException $e) {
+		throw $e;
+	}
     }
 
     /**
