@@ -60,7 +60,7 @@ abstract class AbstractWpEndpoint
     {
     	try {
 		$response = $this->getResponse(null, array('per_page' => 1));
-		$num = (int) $response->getHeader('X-WP-TotalPages')[0];
+		$num = (int) $response->getHeader('X-WP-Total')[0];
 		return $num;
 	}
 	catch (RuntimeException $e) {
