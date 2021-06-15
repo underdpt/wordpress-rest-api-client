@@ -56,10 +56,10 @@ abstract class AbstractWpEndpoint
      * @return int
      * @throws \RuntimeException
      */
-    public function numFound()
+    public function numFound(array $params = array('per_page' => 1))
     {
     	try {
-		$response = $this->getResponse(null, array('per_page' => 1));
+		$response = $this->getResponse(null, $params);
 		$num = (int) $response->getHeader('X-WP-Total')[0];
 		return $num;
 	}
