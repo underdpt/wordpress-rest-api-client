@@ -23,6 +23,7 @@ use Vnn\WpApiClient\Http\ClientInterface;
  * @method Endpoint\Tags tags()
  * @method Endpoint\Users users()
  * @method Endpoint\Settings settings()
+ * @method Endpoint\Sites sites()
  */
 class WpClient
 {
