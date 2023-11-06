@@ -124,6 +124,10 @@ abstract class AbstractWpEndpoint
             $url .= '/' . $data['ID'];
         }
 
+        if (isset($data['force'])) {
+            $url .= '?force=1';
+        }
+
         $request = new Request('DELETE', $url);
         $response = $this->client->send($request);
 
